@@ -136,5 +136,4 @@ class EasyIncNode(EasyNode):
             context = Context({})
         rendered = super(EasyIncNode, self).render(context)
         context.update(rendered)
-        print render_to_string(self.template_name, context)
         return render_to_string(self.template_name, context)
