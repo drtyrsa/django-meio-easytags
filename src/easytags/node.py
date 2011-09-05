@@ -8,7 +8,8 @@ Created on 20/02/2011
 
 from inspect import getargspec
 
-from django.template import Node, Variable, TemplateSyntaxError
+from django.template import Node, Variable, TemplateSyntaxError, Context
+from django.template.loader import render_to_string
 
 
 is_kwarg = lambda bit: not bit[0] in (u'"', u"'") and u'=' in bit
@@ -128,3 +129,12 @@ class EasyAsNode(EasyNode):
             context[self.varname] = rendered
             return u''
         return rendered
+
+class EasyIncNode(EasyNode):
+    def render(self, context):
+        if not self.takes_context:
+            context = Context({})
+        rendered = super(EasyIncNode, self).render(context)
+        context.update(rendered)
+        print render_to_string(self.template_name, context)
+        return render_to_string(self.template_name, context)
