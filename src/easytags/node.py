@@ -132,8 +132,9 @@ class EasyAsNode(EasyNode):
 
 class EasyIncNode(EasyNode):
     def render(self, context):
-        if not self.takes_context:
-            context = Context({})
         rendered = super(EasyIncNode, self).render(context)
-        context.update(rendered)
+        if self.takes_context:
+            context.update(rendered)
+        else:
+            context = rendered
         return render_to_string(self.template_name, context)
