@@ -7,6 +7,7 @@ Created on 20/02/2011
 '''
 
 from inspect import getargspec
+from copy import copy
 
 from django.template import Node, Variable, TemplateSyntaxError, Context
 from django.template.loader import render_to_string
@@ -134,6 +135,7 @@ class EasyIncNode(EasyNode):
     def render(self, context):
         rendered = super(EasyIncNode, self).render(context)
         if self.takes_context:
+            context = copy(context)
             context.update(rendered)
         else:
             context = rendered
